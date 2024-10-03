@@ -1,22 +1,44 @@
-import { React, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useForm } from "react-hook-form"
+import { React, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useForm } from "react-hook-form";
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import {NavLink,useNavigate } from "react-router-dom";
 const login = () => {
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
-    const onSubmit = (data) => console.log(data);
+    const onSubmit = async (data) => {
+        const userInfo = {
+            email: data.email,
+            password: data.password
+        }
+        await axios.post("http://localhost:1101/user/login/", userInfo).then((res) => {
+            if (res.data) {
+                //alert(res.data.message);
+                toast.success(res.data.message);
+                document.getElementById("my_modal_3").close();
+                navigate('/');
+                window.location.reload();
+            }
+            localStorage.setItem("user", JSON.stringify(res.data.user))
+        }).catch((err) => {
+            if (err.response) {
+                toast.error(err.response.data.message);
+            }
+        })
+    };
 
     return (
         <>
             <div  >
                 <dialog id="my_modal_3" className="modal " >
                     <div className="modal-box dark:bg-slate-900 dark:text-white dark:border" >
-                        <form >
-                            {/* if there is a button in form, it will close the modal */}
-                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                        <form method='dialog'>
+                            <Link to='/' className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => document.getElementById("my_modal_3").close()} >✕</Link>
 
                             <h3 className="font-bold text-lg">Login</h3>
                             <div className='mt-4 space-y-2'>

@@ -1,7 +1,14 @@
 import { React, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import Login from '../components/auth/login'
+import Login from '../components/auth/login';
+
+
+import { useAuth } from '../contex/AuthProvider';
+import Logout from '../components/auth/logout';
 const Navbar = () => {
+  const [authUser, setAuthUser] = useAuth();
+  console.log('value ',authUser)
+
   const [sticky, setSticky] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem("theme") ? localStorage.getItem("theme") : "light");
   const element = document.documentElement;
@@ -100,7 +107,7 @@ const Navbar = () => {
                 </svg>
 
                 {/* moon icon */}
-                <svg   
+                <svg
                   className="swap-off h-7 w-7 fill-current"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
@@ -109,10 +116,13 @@ const Navbar = () => {
                 </svg>
               </label>
             </div>
-            <div className="">
-              <a className=" bg-black text-white px-3  py-2 rounded-md hover:bg-slate-800 duration-300 cursor-pointer " onClick={() => document.getElementById("my_modal_3").showModal()}>LogIn</a>
-              <Login />
-            </div>
+            {
+              authUser ? <Logout/> : <div className="">
+                <a className=" bg-black text-white px-3  py-2 rounded-md hover:bg-slate-800 duration-300 cursor-pointer " onClick={() => document.getElementById("my_modal_3").showModal()}>LogIn</a>
+                <Login />
+              </div>
+            }
+
           </div>
         </div>
       </div>
