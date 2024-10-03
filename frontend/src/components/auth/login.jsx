@@ -41,9 +41,9 @@ const login = () => {
                             <Link to='/' className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => document.getElementById("my_modal_3").close()} >✕</Link>
 
                             <h3 className="font-bold text-lg">Login</h3>
-                            <div className='mt-4 space-y-2'>
+                            <div className='mt-4 space-y-2 '>
                                 <span>Email</span><br />
-                                <input type="email" placeholder='Enter  Email' className='w-80 outline-none px-3  py-1 border rounded-md' {...register("email", { required: true })} />
+                                <input type="email" placeholder='Enter  Email' className='w-80 outline-none px-3  py-1 border rounded-md ' {...register("email", { required: true })} />
                                 <br />
                                 {errors.email && <span className='text-md text-red-300 '>This field is required</span>}
                             </div>
